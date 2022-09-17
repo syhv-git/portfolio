@@ -20,7 +20,7 @@ body {
     align-items: center;
     justify-content: center;
     height: 3.5rem;
-    width: 100vw;
+    width: 100%;
     z-index: 10;
 }
 
@@ -67,9 +67,15 @@ body {
     padding: 0.5rem 0.5rem;
 }
 
+.nav-search-bar {
+    display: none;
+}
+
 .search-bar {
     position: relative;
+    margin-left: 0.5rem;
     min-width: 175px;
+    max-width: 250px;
 }
 
 .search-input {
@@ -175,7 +181,7 @@ body {
     height: calc(100vh - 3rem);
     width: 100%;
     position: fixed;
-    top: 3rem;
+    margin-top: 3rem;
     z-index: 0;
 }
 
@@ -194,7 +200,7 @@ body {
 
 .welcome {
     flex: 0 40%;
-    height: 22rem;
+    height: 26rem;
     background-image: linear-gradient(#BBBBBB, #424242, #232323);
     opacity: 0.2;
     border-radius: 10% 10% 0 0;

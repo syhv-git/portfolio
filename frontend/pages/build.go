@@ -15,26 +15,10 @@ func BuildPage(w http.ResponseWriter, r *http.Request, p string) {
 	render(w, b)
 }
 
-var (
-	dom = template.Must(template.ParseFiles("index.html"))
-)
-
 func render(w http.ResponseWriter, b []byte) {
-	n, err := os.ReadFile("assets/html/navbar.html")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	f, err := os.ReadFile("assets/html/footer.html")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
+	dom := template.Must(template.ParseFiles("assets/html/index.html", "assets/html/navbar.html", "assets/html/footer.html"))
 	data := map[string]template.HTML{
-		"Nav":  template.HTML(n),
 		"Body": template.HTML(b),
-		"Foot": template.HTML(f),
 	}
 	if err := dom.Execute(w, data); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
