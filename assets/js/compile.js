@@ -6,8 +6,8 @@ function load(path) {
     head.appendChild(script)
 }
 
-load('/assets/js/particles.js-master/particles.js')
-load('/assets/js/particles.js-master/demo/js/app.js')
 load('/assets/js/components/navbar.js')
 load('/assets/js/components/search.js')
 load('/assets/js/components/search_list.js')
+load('/assets/js/particles.js-master/particles.js')
+load('/assets/js/particles.js-master/demo/js/app.js')
