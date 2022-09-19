@@ -1,1 +1,149 @@
-let Stats=function(){let l=Date.now(),g=l,c=0,p=1/0,f=0,a=0,m=1/0,h=0,u=0,d=0,n=document.createElement("div");n.id="stats",n.addEventListener("mousedown",function(e){e.preventDefault(),v(++d%2)},!1),n.style.cssText="width:80px;opacity:0.9;cursor:pointer";let e=document.createElement("div");e.id="fps",e.style.cssText="padding:0 0 3px 3px;text-align:left;background-color:#002",n.appendChild(e);let r=document.createElement("div");r.id="fpsText",r.style.cssText="color:#0ff;font-family:Helvetica,Arial,sans-serif;font-size:9px;font-weight:bold;line-height:15px",r.innerHTML="FPS",e.appendChild(r);let o=document.createElement("div");for(o.id="fpsGraph",o.style.cssText="position:relative;width:74px;height:30px;background-color:#0ff",e.appendChild(o);o.children.length<74;){let e=document.createElement("span");e.style.cssText="width:1px;height:30px;float:left;background-color:#113",o.appendChild(e)}let t=document.createElement("div");t.id="ms",t.style.cssText="padding:0 0 3px 3px;text-align:left;background-color:#020;display:none",n.appendChild(t);let i=document.createElement("div");i.id="msText",i.style.cssText="color:#0f0;font-family:Helvetica,Arial,sans-serif;font-size:9px;font-weight:bold;line-height:15px",i.innerHTML="MS",t.appendChild(i);let s=document.createElement("div");for(s.id="msGraph",s.style.cssText="position:relative;width:74px;height:30px;background-color:#0f0",t.appendChild(s);s.children.length<74;){let e=document.createElement("span");e.style.cssText="width:1px;height:30px;float:left;background-color:#131",s.appendChild(e)}let v=function(n){switch(d=n,d){case 0:e.style.display="block",t.style.display="none";break;case 1:e.style.display="none",t.style.display="block";break}},b=function(e,t){let n=e.appendChild(e.firstChild);n.style.height=t+"px"};return{REVISION:12,domElement:n,setMode:v,begin:function(){l=Date.now()},end:function(){let e=Date.now();return c=e-l,p=Math.min(p,c),f=Math.max(f,c),i.textContent=c+" MS ("+p+"-"+f+")",b(s,Math.min(30,30-c/200*30)),u++,e>g+1e3&&(a=Math.round(u*1e3/(e-g)),m=Math.min(m,a),h=Math.max(h,a),r.textContent=a+" FPS ("+m+"-"+h+")",b(o,Math.min(30,30-a/100*30)),g=e,u=0),e},update:function(){l=this.end()}}};typeof module=="object"&&(module.exports=Stats)
+/**
+ * @author mrdoob / http://mrdoob.com/
+ */
+
+let Stats = function () {
+
+    let startTime = Date.now(), prevTime = startTime;
+    let ms = 0, msMin = Infinity, msMax = 0;
+    let fps = 0, fpsMin = Infinity, fpsMax = 0;
+    let frames = 0, mode = 0;
+
+    let container = document.createElement( 'div' );
+    container.id = 'stats';
+    container.addEventListener( 'mousedown', function ( event ) { event.preventDefault(); setMode( ++ mode % 2 ) }, false );
+    container.style.cssText = 'width:80px;opacity:0.9;cursor:pointer';
+
+    let fpsDiv = document.createElement( 'div' );
+    fpsDiv.id = 'fps';
+    fpsDiv.style.cssText = 'padding:0 0 3px 3px;text-align:left;background-color:#002';
+    container.appendChild( fpsDiv );
+
+    let fpsText = document.createElement( 'div' );
+    fpsText.id = 'fpsText';
+    fpsText.style.cssText = 'color:#0ff;font-family:Helvetica,Arial,sans-serif;font-size:9px;font-weight:bold;line-height:15px';
+    fpsText.innerHTML = 'FPS';
+    fpsDiv.appendChild( fpsText );
+
+    let fpsGraph = document.createElement( 'div' );
+    fpsGraph.id = 'fpsGraph';
+    fpsGraph.style.cssText = 'position:relative;width:74px;height:30px;background-color:#0ff';
+    fpsDiv.appendChild( fpsGraph );
+
+    while ( fpsGraph.children.length < 74 ) {
+
+        let bar = document.createElement( 'span' );
+        bar.style.cssText = 'width:1px;height:30px;float:left;background-color:#113';
+        fpsGraph.appendChild( bar );
+
+    }
+
+    let msDiv = document.createElement( 'div' );
+    msDiv.id = 'ms';
+    msDiv.style.cssText = 'padding:0 0 3px 3px;text-align:left;background-color:#020;display:none';
+    container.appendChild( msDiv );
+
+    let msText = document.createElement( 'div' );
+    msText.id = 'msText';
+    msText.style.cssText = 'color:#0f0;font-family:Helvetica,Arial,sans-serif;font-size:9px;font-weight:bold;line-height:15px';
+    msText.innerHTML = 'MS';
+    msDiv.appendChild( msText );
+
+    let msGraph = document.createElement( 'div' );
+    msGraph.id = 'msGraph';
+    msGraph.style.cssText = 'position:relative;width:74px;height:30px;background-color:#0f0';
+    msDiv.appendChild( msGraph );
+
+    while ( msGraph.children.length < 74 ) {
+
+        let bar = document.createElement( 'span' );
+        bar.style.cssText = 'width:1px;height:30px;float:left;background-color:#131';
+        msGraph.appendChild( bar );
+
+    }
+
+    let setMode = function ( value ) {
+
+        mode = value;
+
+        switch ( mode ) {
+
+            case 0:
+                fpsDiv.style.display = 'block';
+                msDiv.style.display = 'none';
+                break;
+            case 1:
+                fpsDiv.style.display = 'none';
+                msDiv.style.display = 'block';
+                break;
+        }
+
+    };
+
+    let updateGraph = function ( dom, value ) {
+
+        let child = dom.appendChild( dom.firstChild );
+        child.style.height = value + 'px';
+
+    };
+
+    return {
+
+        REVISION: 12,
+
+        domElement: container,
+
+        setMode: setMode,
+
+        begin: function () {
+
+            startTime = Date.now();
+
+        },
+
+        end: function () {
+
+            let time = Date.now();
+
+            ms = time - startTime;
+            msMin = Math.min( msMin, ms );
+            msMax = Math.max( msMax, ms );
+
+            msText.textContent = ms + ' MS (' + msMin + '-' + msMax + ')';
+            updateGraph( msGraph, Math.min( 30, 30 - ( ms / 200 ) * 30 ) );
+
+            frames ++;
+
+            if ( time > prevTime + 1000 ) {
+
+                fps = Math.round( ( frames * 1000 ) / ( time - prevTime ) );
+                fpsMin = Math.min( fpsMin, fps );
+                fpsMax = Math.max( fpsMax, fps );
+
+                fpsText.textContent = fps + ' FPS (' + fpsMin + '-' + fpsMax + ')';
+                updateGraph( fpsGraph, Math.min( 30, 30 - ( fps / 100 ) * 30 ) );
+
+                prevTime = time;
+                frames = 0;
+
+            }
+
+            return time;
+
+        },
+
+        update: function () {
+
+            startTime = this.end();
+
+        }
+
+    }
+
+};
+
+if ( typeof module === 'object' ) {
+
+    module.exports = Stats;
+
+}
