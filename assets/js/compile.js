@@ -1,1 +1,13 @@
-toggle=document.querySelector(".nav-menu"),menu=document.querySelector(".nav-pill"),links=document.querySelectorAll(".nav-link"),allListeners();function allListeners(){toggle.addEventListener("click",clickMenu),links.forEach(e=>e.addEventListener("click",clickLink))}function clickMenu(){menu.classList.toggle("open")}function clickLink(){menu.classList.contains("open")&&toggle.click()}search=document.getElementById("search-icon"),bar=document.getElementById("search-bar");const sicon='<img class="nav-search-icon" alt="search" src="/assets/images/search-icon.png"/>',cicon='<img class="nav-close-icon" alt="close" src="/assets/images/close.png"/>';search.innerHTML=sicon;let b=!0;search.addEventListener("click",function(){b?search.innerHTML=cicon:search.innerHTML=sicon,b?bar.style.display="flex":bar.style.display="none",b=!b}),clearIcon=document.querySelector(".clear-icon"),searchBar=document.querySelector(".search-input"),searchBar.addEventListener("keyup",()=>{searchBar.value&&clearIcon.style.visibility!=="visible"?clearIcon.style.visibility="visible":searchBar.value||(clearIcon.style.visibility="hidden")}),clearIcon.addEventListener("click",()=>{searchBar.value="",clearIcon.style.visibility="hidden"})
+function load(path) {
+    let head = document.getElementsByTagName('head')[0]
+    let script = document.createElement('script')
+    script.type = 'text/javascript'
+    script.src = path
+    head.appendChild(script)
+}
+
+load('/assets/js/particles.js-master/particles.js')
+load('/assets/js/particles.js-master/demo/js/app.js')
+load('/assets/js/components/navbar.js')
+load('/assets/js/components/search.js')
+load('/assets/js/components/search_list.js')
