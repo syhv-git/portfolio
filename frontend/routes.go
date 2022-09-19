@@ -2,8 +2,8 @@ package frontend
 
 import (
 	"github.com/gorilla/mux"
-	"go-networking/frontend/pages"
 	"net/http"
+	"portfolio/frontend/pages"
 )
 
 func Routes(dir string) *mux.Router {

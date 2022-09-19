@@ -1,36 +1,15 @@
-const initState = {
-    loading: false,
-    results: [],
-    value: '',
-}
+clearIcon = document.querySelector(".clear-icon");
+searchBar = document.querySelector(".search-input");
 
-function handleSubmit(state, action) {
-    if (action.type === 'CLICK_SELECTION') {
-        this.location = `/#/profile/${action.selection}`
+searchBar.addEventListener("keyup", () => {
+    if(searchBar.value && clearIcon.style.visibility !== "visible"){
+        clearIcon.style.visibility = "visible";
+    } else if(!searchBar.value) {
+        clearIcon.style.visibility = "hidden";
     }
-    if (action.type === 'SEARCH') {
-        this.location = `/#/search/${action.submit}`
-    }
-}
+});
 
-function reducer(state, action) {
-    switch (action.type) {
-        case 'CLEAN_QUERY':
-            return initState
-        case 'START_SEARCH':
-            return { ...state, loading: true, value: action.query }
-        case 'FINISH_SEARCH':
-            return { ...state, loading: false, results: action.results }
-        case 'CLICK_SELECTION':
-            handleSubmit(state, action)
-            return initState
-        case 'SEARCH':
-            handleSubmit(state, action)
-            return initState
-        default:
-            throw new Error()
-    }
-}
-
-function SearchList() {
-}
+clearIcon.addEventListener("click", () => {
+    searchBar.value = "";
+    clearIcon.style.visibility = "hidden";
+})

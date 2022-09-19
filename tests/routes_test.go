@@ -2,9 +2,9 @@ package tests
 
 import (
 	"bytes"
-	"go-networking/frontend"
 	"net/http"
 	"net/http/httptest"
+	"portfolio/frontend"
 	"testing"
 )
 

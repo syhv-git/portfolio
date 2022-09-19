@@ -1,9 +1,9 @@
 package tests
 
 import (
-	"go-networking/frontend/pages"
 	"net/http"
 	"net/http/httptest"
+	"portfolio/frontend/pages"
 	"testing"
 )
 
@@ -14,7 +14,9 @@ func TestLandingPageContent(t *testing.T) {
 	}
 
 	rec := httptest.NewRecorder()
-	h := http.HandlerFunc(pages.BuildLanding)
+	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		pages.BuildPage(w, r, "landing")
+	})
 	h.ServeHTTP(rec, req)
 
 	cnt := rec.Header().Get("Content-Type")

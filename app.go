@@ -1,13 +1,18 @@
 package main
 
 import (
-	"go-networking/frontend"
-	"log"
-	"net/http"
+	"portfolio/backend"
 )
 
 func main() {
-	mux := frontend.Routes("assets")
+	if err := backend.Minifier("assets/js/compile.js", "text/javascript", "assets/js/components"); err != nil {
+		panic(err.Error())
+	}
+	if err := backend.Minifier("assets/styles/style.css", "text/css", "assets/styles"); err != nil {
+		panic(err.Error())
+	}
 
-	log.Fatal(http.ListenAndServe(":9001", mux))
+	//mux := frontend.Routes("assets")
+	//
+	//log.Fatal(http.ListenAndServe(":9001", mux))
 }
