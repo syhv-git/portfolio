@@ -4,11 +4,17 @@ import (
 	"bufio"
 	"bytes"
 	"github.com/tdewolff/minify/v2"
-	_ "github.com/tdewolff/minify/v2/css"
-	_ "github.com/tdewolff/minify/v2/js"
+	"github.com/tdewolff/minify/v2/css"
+	"github.com/tdewolff/minify/v2/html"
+	"github.com/tdewolff/minify/v2/js"
+	"github.com/tdewolff/minify/v2/json"
+	"github.com/tdewolff/minify/v2/svg"
+	"github.com/tdewolff/minify/v2/xml"
 	"os"
+	"regexp"
 )
 
+// Minifier takes three parameters and creates a minified
 func Minifier(fp, mime string, dir ...string) error {
 	buf := bytes.NewBuffer(nil)
 	f, err := os.Create(fp)
@@ -24,8 +30,12 @@ func Minifier(fp, mime string, dir ...string) error {
 	go walkDir(dir, n.Name(), c, e)
 
 	min := minify.New()
-	m, _, h := min.Match(mime)
-	min.Add(m, h)
+	min.AddFunc("text/css", css.Minify)
+	min.AddFunc("text/html", html.Minify)
+	min.AddFunc("image/svg+xml", svg.Minify)
+	min.AddFuncRegexp(regexp.MustCompile("^(application|text)/(x-)?(java|ecma)script$"), js.Minify)
+	min.AddFuncRegexp(regexp.MustCompile("[/+]json$"), json.Minify)
+	min.AddFuncRegexp(regexp.MustCompile("[/+]xml$"), xml.Minify)
 wait:
 	for {
 		select {
@@ -42,7 +52,7 @@ wait:
 		}
 	}
 
-	tmp, err := min.Bytes(m, buf.Bytes())
+	tmp, err := min.Bytes(mime, buf.Bytes())
 	if err != nil {
 		return err
 	}

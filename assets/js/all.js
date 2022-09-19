@@ -6,6 +6,6 @@ function load(path) {
     head.appendChild(script)
 }
 
-load('compile.js')
+load('/assets/js/compile.js')
 load('/assets/js/particles.js-master/particles.js')
 load('/assets/js/particles.js-master/demo/js/app.js')
