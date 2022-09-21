@@ -36,6 +36,7 @@ func Minifier(fp, mime string, dir ...string) error {
 	min.AddFuncRegexp(regexp.MustCompile("^(application|text)/(x-)?(java|ecma)script$"), js.Minify)
 	min.AddFuncRegexp(regexp.MustCompile("[/+]json$"), json.Minify)
 	min.AddFuncRegexp(regexp.MustCompile("[/+]xml$"), xml.Minify)
+
 wait:
 	for {
 		select {
@@ -84,6 +85,7 @@ func walkDir(dir []string, ex string, b chan []byte, e chan error) {
 			c := make(chan []byte)
 			e2 := make(chan error)
 			go walkDir(p, ex, b, e)
+
 		wait2:
 			for {
 				select {

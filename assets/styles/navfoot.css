@@ -1,3 +1,14 @@
+body {
+    background: #2e2e2e;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-height: fit-content;
+    width: 100%;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+}
+
 .page-header {
     background-image: linear-gradient(0, #4C2A85, #733293);
     border-bottom: none;
