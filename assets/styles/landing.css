@@ -29,7 +29,7 @@
 
 .welcome {
     flex: 0 40%;
-    height: 26rem;
+    height: 45vh;
     background-image: linear-gradient(#BBBBBB, #424242, #232323);
     opacity: 0.2;
     border-radius: 10% 10% 0 0;
@@ -39,7 +39,7 @@
 .transition {
     display: flex;
     align-self: flex-end;
-    height: 16rem;
+    height: 27.7vh;
     width: 100%;
     background-image: linear-gradient(#111111, #696969, #ffffff);
     opacity: 0.3;
