@@ -45,8 +45,7 @@ wait:
 	for {
 		select {
 		case b, ok := <-c:
-			_, err = buf.Write(b)
-			if err != nil {
+			if _, err = buf.Write(b); err != nil {
 				return err
 			}
 			if err = buf.WriteByte(byte('\n')); err != nil {
