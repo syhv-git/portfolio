@@ -14,7 +14,11 @@ import (
 	"regexp"
 )
 
-// Minifier takes three parameters and creates a minified
+// Minifier takes three parameters and creates a minified file given by fp.
+// mime is the media type for the files located at dir.
+// dir can be a directory or individual files.
+//
+// The function will skip file fp if it is located in dir.
 func Minifier(fp, mime string, dir ...string) error {
 	buf := bytes.NewBuffer(nil)
 	f, err := os.Create(fp)
@@ -43,6 +47,9 @@ wait:
 		case b, ok := <-c:
 			_, err = buf.Write(b)
 			if err != nil {
+				return err
+			}
+			if err = buf.WriteByte(byte('\n')); err != nil {
 				return err
 			}
 			if !ok {
